@@ -139,7 +139,7 @@ sudo ln -s /etc/bluetooth bluetooth
 sudo systemctl daemon-reload && sudo systemctl restart bluetooth.service
 ```
 You may have to reboot the device again by `sudo reboot`.
-With the settings example from previous section (prevent discoverable mode from turning off), check again for the applied settings from with:
+With the settings example from previous section (prevent discoverable mode from turning off), check again for the applied settings with:
 ```
 bluetoothctl show
 ```
