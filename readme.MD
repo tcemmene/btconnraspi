@@ -120,7 +120,11 @@ Save the file and restart the bluetooth service:
 sudo systemctl daemon-reload && sudo systemctl restart bluetooth.service
 ```
 You probably have to reboot the device by `sudo reboot`.
-Check for the applied settings by executing `bluetoothctl show`. If the `DiscoverableTimeout: 0x000000b4` has changed to `DiscoverableTimeout: 0x00000000`, the configuration has been applied.
+Check for the applied settings by executing 
+```
+bluetoothctl show
+```
+If `DiscoverableTimeout: 0x000000b4` has changed to `DiscoverableTimeout: 0x00000000`, the configuration has been applied.
 In any case BlueZ wont recognize the changed configuration, it may be that the configuration has beed loaded from a different location. Check for the loading path by inspecting the manual:
 ```
 man bluetoothd
@@ -133,7 +137,11 @@ sudo ln -s /etc/bluetooth bluetooth
 sudo systemctl daemon-reload && sudo systemctl restart bluetooth.service
 ```
 You maybe have to reboot the device again by `sudo reboot`.
-Check again for the applied settings with `bluetoothctl show`. The discoverable timeout should now be applied, check under section `DiscoverableTimeout: 0x00000000`.
+Check again for the applied settings with 
+```
+bluetoothctl show
+```
+The discoverable timeout should now be applied, check under section `DiscoverableTimeout: 0x00000000`.
 
 # Autostart in discoverable mode
 If you want to automatically start the bluetooth adapter in discoverable mode, open the local user settings:
