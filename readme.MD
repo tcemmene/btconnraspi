@@ -129,19 +129,19 @@ In any case BlueZ wont recognize the changed configuration, it may be that the c
 ```
 man bluetoothd
 ```
-In the section `FILES`, you should see the config file path `/etc/bluetooth/main.conf`. If BlueZ is loading the config from the user settings, the path would be `/usr/local/etc/bluetooth/main.conf`. 
+Under section `FILES`, you should see the config file path `/etc/bluetooth/main.conf`. However, if BlueZ is loading the config from the user settings, the path would be `/usr/local/etc/bluetooth/main.conf`. 
 To fix this, we have to create the following symlink and restart the bluetooth service again:
 ```
 cd /usr/local/etc
 sudo ln -s /etc/bluetooth bluetooth
 sudo systemctl daemon-reload && sudo systemctl restart bluetooth.service
 ```
-You maybe have to reboot the device again by `sudo reboot`.
-Check again for the applied settings with 
+You may have to reboot the device again by `sudo reboot`.
+Check again for the applied settings with:
 ```
 bluetoothctl show
 ```
-The discoverable timeout should now be applied, check under section `DiscoverableTimeout: 0x00000000`.
+The discoverable timeout should now be applied: `DiscoverableTimeout: 0x00000000`.
 
 # Autostart in discoverable mode
 If you want to automatically start the bluetooth adapter in discoverable mode, open the local user settings:
