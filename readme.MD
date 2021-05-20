@@ -106,7 +106,7 @@ minicom -b 9600 -o -D /dev/rfcomm0
 ```
 
 
-# Prevent discoverable mode from turning off
+## Prevent discoverable mode from turning off
 You probably want to change the discoverable mode to not automatically turn off. Therefore, you can edit the bluetooth config file:
 ```
 sudo nano /etc/bluetooth/main.conf
@@ -126,7 +126,7 @@ bluetoothctl show
 ```
 If `DiscoverableTimeout: 0x000000b4` has changed to `DiscoverableTimeout: 0x00000000`, the configuration has been applied.
 
-# Fix loading of configuration file
+## Fix loading of configuration file
 In any case BlueZ wont recognize the changed configuration from `/etc/bluetooth/main.conf`, it may be that it has beed loaded from a different location. Check for the loading path by inspecting the manual:
 ```
 man bluetoothd
@@ -145,7 +145,7 @@ bluetoothctl show
 ```
 The discoverable timeout should now be applied: `DiscoverableTimeout: 0x00000000`.
 
-# Autostart in discoverable mode
+## Autostart in discoverable mode
 If you want to automatically start the bluetooth adapter in discoverable mode, open the local user settings:
 ```
 sudo nano /etc/rc.local
@@ -161,12 +161,12 @@ pairable on
 Reboot the device and check if the settings are applied by executing `bluetoothctl show`.
 
 
-# Commands to connect after restart
+## Commands to connect after restart
+If autostart in discoverable mode is not applied, you manually have to start the service and set the modes after each reboot:
 ```
 sudo systemctl start bluetooth
 bluetoothctl power on
 bluetoothctl discoverable on
-bluetoothctl 
 ```
 
 
