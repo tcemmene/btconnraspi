@@ -106,6 +106,50 @@ minicom -b 9600 -o -D /dev/rfcomm0
 ```
 
 
+# Fix issues with config file
+You probably want to change the discoverable mode to not automatically turn off. Therefore, you can edit the bluetooth config file:
+```
+sudo nano /etc/bluetooth/main.conf
+```
+Search for the line `DiscoverableTimeout` and set it to `0` (disable timer):
+```
+DiscoverableTimeout = 0
+```
+Save the file and restart the bluetooth service:
+```
+sudo systemctl daemon-reload && sudo systemctl restart bluetooth.service
+```
+You probably have to reboot the device by `sudo reboot`.
+Check for the applied settings by executing `bluetoothctl show`. If the `DiscoverableTimeout: 0x000000b4` has changed to `DiscoverableTimeout: 0x00000000`, the configuration has been applied.
+In any case BlueZ wont recognize the changed configuration, it may be that the configuration has beed loaded from a different location. Check for the loading path by inspecting the manual:
+```
+man bluetoothd
+```
+In the section `FILES`, you should see the config file path `/etc/bluetooth/main.conf`. If BlueZ is loading the config from the user settings, the path would be `/usr/local/etc/bluetooth/main.conf`. 
+To fix this, we have to create the following symlink and restart the bluetooth service again:
+```
+cd /usr/local/etc
+sudo ln -s /etc/bluetooth bluetooth
+sudo systemctl daemon-reload && sudo systemctl restart bluetooth.service
+```
+You maybe have to reboot the device again by `sudo reboot`.
+Check again for the applied settings with `bluetoothctl show`. The discoverable timeout should now be applied, check under section `DiscoverableTimeout: 0x00000000`.
+
+# Autostart in discoverable mode
+If you want to automatically start the bluetooth adapter in discoverable mode, open the local user settings:
+```
+sudo nano /etc/rc.local
+```
+Add following lines before the `exit 0` line:
+```
+# bluetooth settings
+sudo bluetoothctl 
+power on
+discoverable on
+pairable on
+```
+Reboot the device and check if the settings are applied by executing `bluetoothctl show`.
+
 
 # Commands to connect after restart
 ```
