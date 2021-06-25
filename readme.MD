@@ -221,8 +221,8 @@ sudo systemctl start var-run-sdp.path
 pip install pybluez
 ```
 2. To access `bluetoothd` features via Python, following modified library can be helpful:
-[bluetoothctl.py](./bluetoothctl.py)
-[Source](https://gist.github.com/egorf/66d88056a9d703928f93)
+- [bluetoothctl.py](./bluetoothctl.py) ([Source](https://gist.github.com/egorf/66d88056a9d703928f93))
+
 
 
 
