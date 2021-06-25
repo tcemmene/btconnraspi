@@ -15,9 +15,8 @@ def init():
     return bl
 
 def scan(bl, scan_time_sec=10):    
-    print("Scanning bluetooth devices...")
+    print(f"Start scanning bluetooth devices for {scan_time_sec} second(s)...")
     bl.start_scan()
-    print(f"Scanning for {scan_time_sec} seconds...")
     for i in range(0, scan_time_sec-1):
         print(i)
         time.sleep(1)
