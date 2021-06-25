@@ -30,6 +30,7 @@ def scan(bl, scan_time_sec=10):
     available_devices = bl.get_available_devices()
     for device in available_devices:
         print(device)
+        
     print("Scan finished.")
 
 def pair(bl, mac):
