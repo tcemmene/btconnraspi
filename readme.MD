@@ -223,6 +223,8 @@ pip install pybluez
 2. To access `bluetoothd` features via Python, following modified library can be helpful:
 - [bluetoothctl.py](./bluetoothctl.py) ([Original Source](https://gist.github.com/egorf/66d88056a9d703928f93))
 3. Code example:
+<details>
+	<summary>Show</summary>
 ```
 import time
 from bluetoothctl import Bluetoothctl
@@ -272,6 +274,7 @@ def main():
 if __name__ == "__main__":
     main()	
 ```
+</details>
 
 
 
