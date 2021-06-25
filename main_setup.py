@@ -2,7 +2,6 @@ import time
 from bluetoothctl import Bluetoothctl
 
 def init():
-
     print("Init bluetooth...")
     bl = Bluetoothctl()
     bl.disable_power()
@@ -12,33 +11,34 @@ def init():
     bl.set_agent_as_default()
     bl.make_discoverable()
     bl.make_pairable()
+    print("Ready!")
     return bl
 
-def scan(bl):    
+def scan(bl, scan_time_sec=10):    
+    print("Scanning bluetooth devices...")
     bl.start_scan()
-    print("Scanning for 10 seconds...")
-    for i in range(0, 8):
+    print(f"Scanning for {scan_time_sec} seconds...")
+    for i in range(0, scan_time_sec-1):
         print(i)
         time.sleep(1)
 
-    print("Discoverable")
+    print("Discoverable:")
     discoverable_devices = bl.get_discoverable_devices()
     for device in discoverable_devices:
         print(device)
         
-    print("Available")
+    print("Available:")
     available_devices = bl.get_available_devices()
     for device in available_devices:
         print(device)
+    print("Scan finished.")
 
 def pair(bl, mac):
     bl.start_agent()
     bl.pair(mac)	
 
 def main():
-    bl = init()
-    print("Ready!")
-	
+    bl = init()	
     scan(bl)
     #pair('<mac_address>')
 
