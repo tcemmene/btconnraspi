@@ -9,7 +9,6 @@ def init():
     bl.enable_power()
     bl.reset_agent()
     bl.set_agent("NoInputNoOutput")
-    #bl.set_agent("DisplayOnly")
     bl.set_agent_as_default()
     bl.make_discoverable()
     bl.make_pairable()
@@ -41,7 +40,7 @@ def main():
     print("Ready!")
 	
     scan(bl)
-    pair('<mac_address>')
+    #pair('<mac_address>')
 
 if __name__ == "__main__":
     main()	
