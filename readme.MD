@@ -105,7 +105,6 @@ Press CTRL-C for hangup
 minicom -b 9600 -o -D /dev/rfcomm0
 ```
 
-
 ## Prevent discoverable mode from turning off
 You probably want to change the discoverable mode to not automatically turn off. Therefore, you can edit the bluetooth config file:
 ```
@@ -160,7 +159,6 @@ pairable on
 ```
 Reboot the device and check if the settings are applied by executing `bluetoothctl show`.
 
-
 ## Commands to connect after restart
 If autostart in discoverable mode is not applied, you manually have to start the service and set the modes after each reboot:
 ```
@@ -168,6 +166,64 @@ sudo systemctl start bluetooth
 bluetoothctl power on
 bluetoothctl discoverable on
 ```
+
+## Setup Serial Download Protocol (SDP) and user permissions
+[Source](https://stackoverflow.com/questions/34599703/rfcomm-bluetooth-permission-denied-error-raspberry-pi)
+1. Make sure your `pi` user is in the `bluetooth` group:
+``` 
+cat /etc/group | grep bluetooth
+```
+1.1 If it's not, add `pi` to `bluetooth` group:
+```
+sudo usermod -G bluetooth -a pi
+```
+2. Change group of the `/var/run/sdp` file:
+```
+sudo chgrp bluetooth /var/run/sdp
+```
+3. To make the change persistent after reboot:
+3.1 Create file `sudo nano /etc/systemd/system/var-run-sdp.path` with the following content:
+```
+[Unit]
+Descrption=Monitor /var/run/sdp
+
+[Install]
+WantedBy=bluetooth.service
+
+[Path]
+PathExists=/var/run/sdp
+Unit=var-run-sdp.service
+```
+3.2 And another file, `sudo nano /etc/systemd/system/var-run-sdp.service``:
+```
+[Unit]
+Description=Set permission of /var/run/sdp
+
+[Install]
+RequiredBy=var-run-sdp.path
+
+[Service]
+Type=simple
+ExecStart=/bin/chgrp bluetooth /var/run/sdp
+ExecStartPost=/bin/chmod 662 /var/run/sdp
+```
+3.3 Finally, start it all up:
+```
+sudo systemctl daemon-reload
+sudo systemctl enable var-run-sdp.path
+sudo systemctl enable var-run-sdp.service
+sudo systemctl start var-run-sdp.path
+```
+
+## Access Bluez via Python
+1. Install `pybluez` in your venv:
+```
+pip install pybluez
+```
+2. To access `bluetoothd` features via Python, following modified library can be helpful:
+[bluetoothctl.py](./bluetoothctl.py)
+[Source](https://gist.github.com/egorf/66d88056a9d703928f93)
+
 
 
 
